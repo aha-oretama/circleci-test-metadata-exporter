@@ -17,7 +17,7 @@ module.exports = {
       },
       build_time_millis: {
         allowNull: false,
-        type: Sequelize.INTEGER
+        type: Sequelize.FLOAT
       },
       queued_at: {
         allowNull: false,

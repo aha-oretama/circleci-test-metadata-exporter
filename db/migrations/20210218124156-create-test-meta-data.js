@@ -39,7 +39,7 @@ module.exports = {
         allowNull: false,
       },
       run_time: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.FLOAT,
         allowNull: false,
       },
       message: {

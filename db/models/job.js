@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      job.hasMany(models.test_meta_data, { foreignKey: 'build_num' })
     }
   };
   job.init({
@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     subject: DataTypes.STRING,
     status: DataTypes.STRING,
-    build_time_millis: DataTypes.INTEGER,
+    build_time_millis: DataTypes.FLOAT,
     queued_at: DataTypes.DATE,
     start_time: DataTypes.DATE,
     stop_time: DataTypes.DATE,

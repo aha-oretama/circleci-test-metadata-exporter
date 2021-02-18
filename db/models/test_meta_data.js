@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     classname: DataTypes.STRING,
     source: DataTypes.STRING,
     result: DataTypes.STRING,
-    run_time: DataTypes.INTEGER,
+    run_time: DataTypes.FLOAT,
     message: DataTypes.STRING
   }, {
     sequelize,
