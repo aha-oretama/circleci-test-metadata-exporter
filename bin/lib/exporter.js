@@ -69,7 +69,7 @@ const getOldestOffset = async (client, targetBuildNum, initOffset) => {
       previousOffset = currentOffset;
     }
 
-    await recursiveOffset(span / 10, currentOffset)
+    return await recursiveOffset(span / 10, currentOffset)
   }
 
   // get number of digit, https://stackoverflow.com/questions/14879691/get-number-of-digits-with-javascript
@@ -98,7 +98,7 @@ const execute = async () => {
   for (let i = 1; i <= options.maxBulk ; i++) {
     console.log(`start ${i}th bulk...`);
     // https://circleci.com/docs/api/#recent-builds-for-a-single-project
-    const builds = await client.builds({limit: 100, offset: offset - i * 100}); // 100 is maximum
+    const builds = await client.builds({limit: 100, offset: Math.max(offset - i * 100, 0)}); // 100 is maximum
     const testMetaBuilds = builds
       .filter(build => (build.job_name === options.name) || build.workflows.job_name === options.name);
 
@@ -111,9 +111,9 @@ const execute = async () => {
           subject: build.subject,
           status: build.status,
           build_time_millis: build.build_time_millis,
-          queued_at: Date(build.queued_at),
-          start_time: Date(build.start_time),
-          stop_time: Date(build.stop_time),
+          queued_at: Date.parse(build.queued_at),
+          start_time: Date.parse(build.start_time),
+          stop_time: Date.parse(build.stop_time),
           parallel: build.parallel,
           build_url: build.build_url
         })
@@ -131,6 +131,9 @@ const execute = async () => {
         }
       }
       await transaction.commit();
+      if (Math.max(offset - i * 100, 0) === 0) {
+        break;
+      }
     } catch (e) {
       await transaction.rollback();
       console.error(e);

@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     source: DataTypes.STRING,
     result: DataTypes.STRING,
     run_time: DataTypes.FLOAT,
-    message: DataTypes.STRING
+    message: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'test_meta_data',
