@@ -2,25 +2,15 @@
   "name": "circleci-test-metadata-exporter",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "@types/jest": "^26.0.15",
-    "@types/node": "^12.0.0",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "react": "^17.0.1",
-    "react-dom": "^17.0.1",
-    "react-scripts": "4.0.2",
-    "typescript": "^4.1.2",
-    "web-vitals": "^1.0.1"
-  },
   "scripts": {
+    "db:model:generate": "npx sequelize model:generate --underscored --migrations-path=./db/migrations/ ----models-path=./db/models/",
+    "db:migrate": "npx sequelize db:migrate --config ./db/config/config.json --migrations-path=./db/migrations/ ----models-path=./db/models/",
+    "db:migrate:undo": "npx sequelize db:migrate:undo:all --config ./db/config/config.json --migrations-path=./db/migrations/ ----models-path=./db/models/",
+    "db:start": "docker-compose -p development up --force-recreate -d",
+    "export": "node bin/cli",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test"
   },
   "eslintConfig": {
     "extends": [
@@ -39,5 +29,26 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "circleci-api": "^4.1.3",
+    "commander": "^7.1.0",
+    "mysql2": "^2.2.5",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-scripts": "4.0.2",
+    "sequelize": "^6.5.0",
+    "typescript": "^4.1.5",
+    "web-vitals": "^1.1.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^12.7.1",
+    "@types/jest": "^26.0.20",
+    "@types/node": "^12.20.1",
+    "@types/react": "^17.0.2",
+    "@types/react-dom": "^17.0.1",
+    "sequelize-cli": "^6.2.0"
   }
 }
