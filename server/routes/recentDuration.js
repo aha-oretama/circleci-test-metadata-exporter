@@ -13,7 +13,6 @@ const getRecentDuration = async (req, res) => {
     res.send([]);
   }
 
-  console.log(job.test_meta_data[0]);
   const results = job.test_meta_data.map(data => ({
     name: data.name || data.classname,
     run_time: data.run_time
