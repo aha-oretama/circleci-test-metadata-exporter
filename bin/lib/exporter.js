@@ -6,6 +6,7 @@ const {CircleCI, GitType} = require('circleci-api');
 commander.requiredOption('-t, --token <token>', 'Required. Set your CircleCI token, https://circleci.com/docs/2.0/api-developers-guide/#add-an-api-token');
 commander.requiredOption('-n, --name <jobName>', 'Required. Set your job name including test meta data.')
 commander.option('-b, --branch <branch>', "Optional. Set your GitHub's branch.", 'master')
+commander.option('-m, --max-bulk <maxBulk>', "Optional. Specify the max number of bulk times when 1 bulk get 100 records at a time. In order to avoid CircleCI API has rate limit, https://circleci.com/docs/api/v1/#rate-limiting", 5);
 commander
   .usage('[options] <owner> <repo>')
   .description('Export CircleCI test metadata');
@@ -82,23 +83,24 @@ const execute = async () => {
   commander.parse(process.argv);
 
   const [owner, repo] = commander.args;
+  const options = commander.opts();
   if (!owner || !repo) {
     console.error('The parameters of owner, repo are not specified. Set owner and repository name of GitHub.')
     commander.outputHelp()
     return 1;
   }
 
-  const client = new CircleCI(getOptions(owner, repo, commander.opts().token, commander.opts().branch));
+  const client = new CircleCI(getOptions(owner, repo, options.token, options.branch));
   const recentBuildNum = await getRecentBuildNum(client);
   const insertedMaxNum = await db.job.max('build_num') || 0;
   const offset = await getOldestOffset(client, insertedMaxNum, recentBuildNum - insertedMaxNum);
 
-  //
-  for (let i = 1; i <= 1; i++) {
+  for (let i = 1; i <= options.maxBulk ; i++) {
+    console.log(`start ${i}th bulk...`);
     // https://circleci.com/docs/api/#recent-builds-for-a-single-project
     const builds = await client.builds({limit: 100, offset: offset - i * 100}); // 100 is maximum
     const testMetaBuilds = builds
-      .filter(build => (build.job_name === commander.opts().name) || build.workflows.job_name === commander.opts().name);
+      .filter(build => (build.job_name === options.name) || build.workflows.job_name === options.name);
 
     const transaction = await db.sequelize.transaction();
     try {
@@ -138,7 +140,5 @@ const execute = async () => {
 
   return 0;
 };
-
-// 2146
 
 module.exports = execute;
