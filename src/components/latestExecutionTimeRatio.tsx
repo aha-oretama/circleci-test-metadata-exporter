@@ -8,7 +8,7 @@ type RecentDurationReturnType = {
   run_time: number
 }[];
 
-export const LatestDurationRatio: React.FunctionComponent = () => {
+export const LatestExecutionTimeRatio: React.FunctionComponent = () => {
   const {data: durations, error} = useSWR<RecentDurationReturnType>('/api/latest', fetcher)
 
   if (error) return <div>failed to load</div>
@@ -20,7 +20,7 @@ export const LatestDurationRatio: React.FunctionComponent = () => {
 
   return (
     <>
-      <h1>The duration ratio of the latest test</h1>
+      <h1>The execution time ratio of the latest test</h1>
       <Doughnut
         data={{
           datasets: [{data: data}],

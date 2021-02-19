@@ -1,22 +1,23 @@
 import React from "react";
 import {Line} from "react-chartjs-2";
-import useSWR from "swr";
-import {fetcher} from "../api/fetcher";
+import {TimeLineReturnType} from "../App";
 
-type CountTimeLineReturnType = {
-  build_num: number;
-  start_time: string;
-  count: number;
-}[];
+type Props = {
+  timeline?: TimeLineReturnType;
+  error: any;
+};
 
-export const CountTimeLine: React.FunctionComponent = () => {
-  const {data: countTimelines, error} = useSWR<CountTimeLineReturnType>('/api/count-timeline', fetcher)
 
-  const data = countTimelines?.map(c => ({x: Date.parse(c.start_time), y: c.count}));
+export const CountTimeLine: React.FunctionComponent<Props> = ({timeline, error}) => {
+
+  if (error) return <div>failed to load</div>
+  if (!timeline) return <div>loading...</div>
+
+  const data = timeline?.map(c => ({x: Date.parse(c.start_time), y: c.total_test_count}));
 
   return (
     <>
-      <h1>Test count time line</h1>
+      <h1>Timeline of test count</h1>
       <Line
         data={{
           datasets: [{

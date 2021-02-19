@@ -1,6 +1,6 @@
 const express = require( 'express');
 const bodyParser = require('body-parser');
-const {countTimeLine} = require("./routes/timeline");
+const {timeline} = require("./routes/timeline");
 const { getLatestTest } = require('./routes/latestTest');
 
 const app = express();
@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/api/latest', getLatestTest);
-app.get('/api/count-timeline', countTimeLine)
+app.get('/api/timeline', timeline)
 
 // tslint:disable-next-line:no-console
 app.listen(port, () => console.log(`Listening on port ${port}`));
