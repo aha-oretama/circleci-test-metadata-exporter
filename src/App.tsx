@@ -1,42 +1,34 @@
 import React from 'react';
 import './App.css';
-import useSWR from 'swr';
-import {fetcher} from "./api/fetcher";
-import {Doughnut, Pie} from "react-chartjs-2";
 import 'chartjs-plugin-colorschemes';
-type RecentDurationReturnType = {
-  name: string
-  run_time: number
-}[];
+import {LatestDurationRatio} from "./components/latestDurationRatio";
+import {CountTimeLine} from "./components/countTimeLine";
 
 function App() {
 
-  const { data: durations, error } = useSWR<RecentDurationReturnType>('/api/recent-duration', fetcher)
+  const divStyle = {
+    display: 'flex'
+  }
 
-  if (error) return <div>failed to load</div>
-  if (!durations) return <div>loading...</div>
-
-  const sorted = durations.sort((a, b) => (b.run_time - a.run_time) )
-  const labels = sorted.map(duration => duration.name);
-  const data = sorted.map(duration => duration.run_time);
+  const sectionStyle = {
+    width: '50%'
+  }
 
   return (
     <main>
-      <section>
-        <h1>The duration ratio of the latest test</h1>
-        <Doughnut
-          data={{
-            datasets: [{data: data}],
-            labels: labels
-          }}
-          legend={{display: false}}
-          plugins={[{
-            colorschemes: {
-              scheme: 'brewer.Paired12'
-            }
-          }]}
-        />
-      </section>
+      <div style={divStyle}>
+        <section style={sectionStyle}>
+          <LatestDurationRatio />
+        </section>
+        <section style={sectionStyle}>
+          <CountTimeLine />
+        </section>
+      </div>
+      <div style={divStyle}>
+        <section style={sectionStyle}>
+          <LatestDurationRatio />
+        </section>
+      </div>
     </main>
   );
 }

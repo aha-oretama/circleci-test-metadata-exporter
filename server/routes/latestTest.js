@@ -1,6 +1,6 @@
 const db = require("../../db/models");
 
-const getRecentDuration = async (req, res) => {
+const getLatestTest = async (req, res) => {
   const job = await db.job.findOne({
     where: {
       build_num: {
@@ -21,4 +21,4 @@ const getRecentDuration = async (req, res) => {
   res.send(results);
 };
 
-exports.getRecentDuration = getRecentDuration;
+exports.getLatestTest = getLatestTest;
