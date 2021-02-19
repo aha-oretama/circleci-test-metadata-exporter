@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     subject: DataTypes.STRING,
     status: DataTypes.STRING,
-    build_time_millis: DataTypes.FLOAT,
+    build_time_millis: DataTypes.INTEGER,
     queued_at: DataTypes.DATE,
     start_time: DataTypes.DATE,
     stop_time: DataTypes.DATE,

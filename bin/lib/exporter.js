@@ -124,7 +124,7 @@ const execute = async () => {
             file: test.file,
             classname: test.classname,
             source: test.source,
-            result: test.source,
+            result: test.result,
             run_time: test.run_time,
             message: test.message
           })
