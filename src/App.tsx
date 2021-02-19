@@ -6,6 +6,7 @@ import {CountTimeLine} from "./components/countTimeLine";
 import {ExecutionTimeTimeLine} from "./components/executionTimeTimeLine";
 import useSWR from "swr";
 import {fetcher} from "./api/fetcher";
+import {SuccessRatioTimeLine} from "./components/successRatioTimeLine";
 
 
 const divStyle = {
@@ -19,7 +20,7 @@ const sectionStyle = {
 export type TimeLineReturnType = {
   build_num: number;
   subject: string,
-  status: "success" | "fail",
+  status: "success" | "failed",
   build_time_millis: number,
   queued_at: string
   start_time: string,
@@ -28,6 +29,9 @@ export type TimeLineReturnType = {
   build_url: number,
   total_test_count: number;
   total_tests_run_time: number;
+  total_success_count: number;
+  total_skipped_count: number;
+  total_failure_count: number;
 }[];
 
 function App() {
@@ -47,6 +51,9 @@ function App() {
       <div style={divStyle}>
         <section style={sectionStyle}>
           <ExecutionTimeTimeLine timeline={timeline} error={error} />
+        </section>
+        <section style={sectionStyle}>
+          <SuccessRatioTimeLine timeline={timeline} error={error} />
         </section>
       </div>
     </main>

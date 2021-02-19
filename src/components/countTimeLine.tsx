@@ -1,14 +1,8 @@
 import React from "react";
 import {Line} from "react-chartjs-2";
-import {TimeLineReturnType} from "../App";
+import {TimelineProps} from "./props";
 
-type Props = {
-  timeline?: TimeLineReturnType;
-  error: any;
-};
-
-
-export const CountTimeLine: React.FunctionComponent<Props> = ({timeline, error}) => {
+export const CountTimeLine: React.FunctionComponent<TimelineProps> = ({timeline, error}) => {
 
   if (error) return <div>failed to load</div>
   if (!timeline) return <div>loading...</div>
