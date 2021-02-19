@@ -7,13 +7,14 @@ import {ExecutionTimeTimeLine} from "./components/executionTimeTimeLine";
 import useSWR from "swr";
 import {fetcher} from "./api/fetcher";
 import {SuccessRatioTimeLine} from "./components/successRatioTimeLine";
+import {FailureTestList} from "./components/failureTestList";
 
 
-const divStyle = {
+const divFlexStyle = {
   display: 'flex'
 }
 
-const sectionStyle = {
+const divStyle = {
   width: '50%'
 }
 
@@ -40,21 +41,29 @@ function App() {
 
   return (
     <main>
-      <div style={divStyle}>
-        <section style={sectionStyle}>
+      <div style={divFlexStyle}>
+        <div style={divStyle}>
           <LatestExecutionTimeRatio />
-        </section>
-        <section style={sectionStyle}>
+        </div>
+        <div style={divStyle}>
           <CountTimeLine timeline={timeline} error={error} />
-        </section>
+        </div>
       </div>
-      <div style={divStyle}>
-        <section style={sectionStyle}>
+      <div style={divFlexStyle}>
+        <div style={divStyle}>
           <ExecutionTimeTimeLine timeline={timeline} error={error} />
-        </section>
-        <section style={sectionStyle}>
+        </div>
+        <div style={divStyle}>
           <SuccessRatioTimeLine timeline={timeline} error={error} />
-        </section>
+        </div>
+      </div>
+      <div style={divFlexStyle}>
+        <div style={divStyle}>
+          <FailureTestList />
+        </div>
+        <div style={divStyle}>
+          <SuccessRatioTimeLine timeline={timeline} error={error} />
+        </div>
       </div>
     </main>
   );

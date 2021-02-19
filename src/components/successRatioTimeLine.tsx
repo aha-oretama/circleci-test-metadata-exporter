@@ -21,6 +21,7 @@ export const SuccessRatioTimeLine: React.FunctionComponent<TimelineProps> = ({ti
             data: data,
             label: "Success ratio",
             lineTension: 0,
+            pointRadius: 0,
           }],
         }}
         options={{
