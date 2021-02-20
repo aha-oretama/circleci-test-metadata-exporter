@@ -44,10 +44,10 @@ function App() {
     <main>
       <div style={divFlexStyle}>
         <div style={divStyle}>
-          <LatestExecutionTimeRatio />
+          <CountTimeLine timeline={timeline} error={error} />
         </div>
         <div style={divStyle}>
-          <CountTimeLine timeline={timeline} error={error} />
+          <SuccessRatioTimeLine timeline={timeline} error={error} />
         </div>
       </div>
       <div style={divFlexStyle}>
@@ -55,7 +55,7 @@ function App() {
           <ExecutionTimeTimeLine timeline={timeline} error={error} />
         </div>
         <div style={divStyle}>
-          <SuccessRatioTimeLine timeline={timeline} error={error} />
+          <LatestExecutionTimeRatio />
         </div>
       </div>
       <div style={divFlexStyle}>

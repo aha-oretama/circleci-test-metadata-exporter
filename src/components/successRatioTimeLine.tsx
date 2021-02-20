@@ -34,7 +34,7 @@ export const SuccessRatioTimeLine: React.FunctionComponent<TimelineProps> = ({ti
             }],
             yAxes: [{
               ticks: {
-                min: 0,
+                // min: 0,
                 max: 100,
                 callback: function(value) {
                   return value + "%"
