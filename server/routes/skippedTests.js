@@ -20,13 +20,12 @@ const skippedTests = async (req, res) => {
     }
   );
 
-  const test_meta_data = jobWithSkippedTest.test_meta_data;
-  if(!test_meta_data) {
+  if(!jobWithSkippedTest || !jobWithSkippedTest.test_meta_data) {
     res.send([]);
     return;
   }
 
-  const names = test_meta_data.map(d => `"${d.name}"`);
+  const test_meta_data = jobWithSkippedTest.test_meta_data
   const longesSkippedTests = await db.sequelize.query(`
   SELECT name, MAX(queued_at) AS first_skipped_at
     FROM (
@@ -41,14 +40,17 @@ const skippedTests = async (req, res) => {
       ON
         jobs.build_num =test_meta_data.build_num ) AS LEAD_TABLE
     WHERE
-      name IN (${names.join(",")})
+      name IN (:tests)
     AND
       result = "skipped"
     AND
       (lead_result != "skipped" OR lead_result IS NULL)
     GROUP BY
       name
-  `, {type: QueryTypes.SELECT});
+  `, {
+    replacements: { tests: test_meta_data.map(d => d.name)},
+    type: QueryTypes.SELECT
+  });
   const result = longesSkippedTests.map(test => ({...test,last_skipped_at: jobWithSkippedTest.queued_at}));
   res.send(result);
 }
