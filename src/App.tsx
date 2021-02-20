@@ -8,6 +8,7 @@ import useSWR from "swr";
 import {fetcher} from "./api/fetcher";
 import {SuccessRatioTimeLine} from "./components/successRatioTimeLine";
 import {FailureTestList} from "./components/failureTestList";
+import {SkippedTestList} from "./components/SkippedTestList";
 
 
 const divFlexStyle = {
@@ -62,7 +63,7 @@ function App() {
           <FailureTestList />
         </div>
         <div style={divStyle}>
-          <SuccessRatioTimeLine timeline={timeline} error={error} />
+          <SkippedTestList />
         </div>
       </div>
     </main>

@@ -11,6 +11,7 @@ const getLatestTest = async (req, res) => {
   })
   if(!job) {
     res.send([]);
+    return;
   }
 
   const results = job.test_meta_data.map(data => ({

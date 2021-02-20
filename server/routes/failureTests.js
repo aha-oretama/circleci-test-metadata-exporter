@@ -26,7 +26,6 @@ const failureTests = async (req, res) => {
     having: db.Sequelize.literal('total_failure_count > 0')
   });
 
-  console.log(jobs);
   const formatJobs = jobs.map(j => ({
     ...j,
     total_failure_count: parseInt(j.total_failure_count),
